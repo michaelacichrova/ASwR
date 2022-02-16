@@ -1,0 +1,14 @@
+```{bash}
+#!/bin/bash
+TXT='text.text'
+MYTEXT1='echo $TXT'   # quote
+MYTEXT2="echo $TXT"   # substitute
+MYTEXT3=`echo $TXT`   # substitute and run
+echo '$MYTEXT1' '$MYTEXT2' '$MYTEXT3'  
+echo "$MYTEXT1"
+echo "$MYTEXT2"
+echo "$MYTEXT3"
+echo `$MYTEXT1`
+echo `$MYTEXT2`
+echo `$MYTEXT3`
+```
