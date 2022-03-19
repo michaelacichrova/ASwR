@@ -10,5 +10,5 @@ pwd
 module load R
 echo "loaded R"
 
-time mpirun Rscript EX4.r 8
-time mpirun Rscript EX4.r 16
+time mpirun Rscript EX4.r
+
