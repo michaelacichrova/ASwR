@@ -1,9 +1,9 @@
 #!/bin/bash
-#PBS -N rf
+#PBS -N EX4
 #PBS -l select=1:ncpus=128,walltime=00:05:00
 #PBS -q qexp
-#PBS -e rf.e
-#PBS -o rf.o
+#PBS -e EX4.e
+#PBS -o EX4.o
 
 cd ~/ASwR-1
 pwd
