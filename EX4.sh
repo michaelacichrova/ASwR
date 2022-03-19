@@ -12,6 +12,6 @@ echo "loaded R"
 
 time mpirun -np 8 Rscript EX4.r
 time mpirun -np 16 Rscript EX4.r
-time Rscript -np 32 EX4.r
-time Rscript -np 64 EX4.r
-time Rscript -np 128 EX4.r
+time Rscript -np 32 Rscript EX4.r
+time Rscript -np 64 Rscript EX4.r
+time Rscript -np 128 Rscript EX4.r
