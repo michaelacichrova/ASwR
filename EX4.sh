@@ -10,8 +10,8 @@ pwd
 module load R
 echo "loaded R"
 
-time Rscript EX4.r 8
-time Rscript EX4.r 16
+time mpirun -np 8 Rscript EX4.r
+time mpirun -np 16 Rscript EX4.r
 time Rscript EX4.r 32
 time Rscript EX4.r 64
 time Rscript EX4.r 128
