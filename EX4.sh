@@ -5,7 +5,6 @@
 #PBS -e EX4.e
 #PBS -o EX4.o
 
-cd ~/ASwR-1
 pwd
 
 module load R
