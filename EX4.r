@@ -1,5 +1,4 @@
 library(randomForest)
-library(parallel)
 data(LetterRecognition, package = "mlbench")
 set.seed(seed = 123, "L'Ecuyer-CMRG")
 
@@ -33,17 +32,9 @@ err = tapply(unlist(cv_err), cv_pars[, "mtry"], sum)
 })
 pdf(paste0("rf_cv_mc", nc, ".pdf")); plot(mtry_val, err/(n - n_test)); dev.off()
 
-#parallelization 
-ntree_p = lapply(splitIndices(500, nc), length)
-rf = function(x) randomForest(lettr ~ ., train, ntree=x)
-rf.out = mclapply(ntree_p, rf, mc.cores = nc)
-rf.all = do.call(combine, rf.out)
-crows = splitIndices(nrow(test), nc) 
-rfp = function(x) as.vector(predict(rf.all, test[x, ])) 
-cpred = mclapply(crows, rfp, mc.cores = nc) 
-pred = do.call(c, cpred) 
+rf.all = randomForest(lettr ~ ., train, ntree = ntree)
+pred = predict(rf.all, test)
 correct = sum(pred == test$lettr)
-
 
 mtry = mtry_val[which.min(err)]
 rf.all = randomForest(lettr ~ ., train, ntree = ntree, mtry = mtry)
