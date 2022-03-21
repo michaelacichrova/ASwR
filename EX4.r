@@ -1,5 +1,5 @@
 library(randomForest)
-library(parallel).
+library(parallel)
 data(LetterRecognition, package = "mlbench")
 set.seed(seed = 123, "L'Ecuyer-CMRG")
 
