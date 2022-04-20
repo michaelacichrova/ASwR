@@ -2,8 +2,8 @@
 module load R
 echo "loaded R"
 
-time Rscript mnist_svd_cv.R
+time Rscript EX8.R
 
 
 ## --args blas fork
-time Rscript mnist_svd_cv.R --args 4 32
+time Rscript RX8.R --args 4 32
