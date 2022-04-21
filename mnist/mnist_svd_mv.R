@@ -102,7 +102,7 @@ library(ggplot2)
 ## set up cv parameters
 
 
-nfolds = 5
+nfolds = 10
 pars = seq(80.0, 95, 0.2) ## par values to fit
 
 
@@ -115,42 +115,6 @@ cv = expand.grid(par = pars, fold = 1:nfolds)  ## all combinations
 my_index = comm.chunk(nrow(cv), form = "vector")
 
 ranks = comm.size()
-#msg = paste0("Hello World! My name is Empi", my.rank,
-#            ". We are ", ranks, " identical siblings.")
-#cat(msg, "\n")
-
-
-
-
-#------------------------------------------------------------------------
-#jara zkousi programovat cv
-
-#n = nrow(train)
-#n_test = nrow(test)
-#my_trees = comm.chunk(512)
-#my_test_rows = comm.chunk(nrow(test), form = "vector")
-
-#my_rf = randomForest(train, y = train_lab, ntree = my_trees, norm.votes = FALSE)
-#all_rf = allgather(my_rf)
-#all_rf = do.call(combine, all_rf)
-
-#my_pred = as.vector(predict(all_rf, test[my_test_rows, ]))
-
-#correct = reduce(sum(my_pred == test_lab[my_test_rows]))
-#comm.cat("Proportion Correct:", correct/n_test, "\n")
-
-#finalize()
-
-
-
-
-
-
-
-
-
-
-#-------------------------------------------------------------------------
 
 
 ## function for parameter combination i
@@ -166,23 +130,14 @@ fold_err = function(i, cv, folds, train) {
 comm.print(my_index)
 
 
-
-
-comm.print("preslo to pred lapply",my.rank,all.rank = TRUE)
+comm.print("pred lapply",my.rank,all.rank = TRUE)
 my_cv_err = lapply(my_index,fold_err, cv = cv, folds = folds, train = train)
-comm.print("preslo to za lapply",my.rank,all.rank = TRUE)
+comm.print("za lapply",my.rank,all.rank = TRUE)
 
 
 cv_err = allgather(my_cv_err) 
 cv_err_par = tapply(unlist(cv_err), cv[, "par"], sum)
 
-
-
-#cv_err_par = tapply(unlist(cv_err), cv[, "par"], sum)
-
-
-#cv_err_par_colect <- unlist(allgather(cv_err_par))
-## plot cv curve with loess smoothing (ggplot default)
 comm.print(cv_err_par)
 
 pdf("Crossvalidation.pdf")
@@ -190,8 +145,6 @@ ggplot(data.frame(pct = pars, error = cv_err_par/nrow(train)),
        aes(pct, error)) + geom_point() + geom_smooth() +
   labs(title = "Loess smooth with 95% CI of crossvalidation")
 dev.off()
-
-
 
 
 ## End CV
