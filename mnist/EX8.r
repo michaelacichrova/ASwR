@@ -3,6 +3,8 @@ system.time(source("mnist_read.R"))
 source("../code/flexiblas_setup.r")
 setback("OPENBLAS")
 
+
+
 #' svdmod
 #' 
 #' Computes SVD for each image label in training data
@@ -108,6 +110,8 @@ blas_threads = as.numeric(commandArgs(TRUE)[2])
 fork_cores = as.numeric(commandArgs(TRUE)[3])
 setback("OPENBLAS")
 setthreads(blas_threads)
+
+comm.cat("TU sme")
 
 ## Begin CV (This CV is with mclapply. Exercise 8 needs MPI parallelization.)
 ## set up cv parameters
