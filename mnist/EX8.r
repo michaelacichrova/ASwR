@@ -86,7 +86,6 @@ image_ggplot = function(images, ivals, title) {
 #' optionally plots basis images
 #' 
 
-cat(comm.rank(), "Just before function model_report", "\n")
 
 model_report = function(models, kplot = 0) {
   for(m in names(models)) {
@@ -142,7 +141,7 @@ my_cv_err = lapply(my_index,fold_err, cv = cv, folds = folds, train = train)
 comm.print("preslo to za lapply",my.rank,all.rank = TRUE)
 
 ## sum fold errors for each parameter value
-cv_err = allgather(my_cv_err)`  
+cv_err = allgather(my_cv_err) 
 cv_err_par = tapply(unlist(cv_err), cv[, "par"], sum)
 
 
