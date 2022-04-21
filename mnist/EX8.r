@@ -162,11 +162,11 @@ comm.print(cv_err_par)
 
 
 ## recompute with optimal pct
-
+if(comm.rank() == 1) { 
   models = svdmod(train, train_lab, pct = 85)
   pdf("BasisImages.pdf")
   model_report(models, kplot = 9)
-  dev.off()
+  dev.off()}
 
 predicts = predict_svdmod(test, models)
 correct <- sum(predicts == test_lab)
