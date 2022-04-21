@@ -3,14 +3,11 @@ system.time(source("mnist_read.R"))
 source("../code/flexiblas_setup.r")
 setback("OPENBLAS")
 
-
-
 #' svdmod
 #' 
 #' Computes SVD for each image label in training data
 #' Returns SVDs truncated to either k components or percent variability
 #' 
-
 svdmod = function(data, labels, k = NULL, pct = NULL, plots = FALSE) {
   ## trains svd model for each label
   
@@ -43,7 +40,6 @@ svdmod = function(data, labels, k = NULL, pct = NULL, plots = FALSE) {
 #' 
 #' Computes classification of new images in test data
 #' 
-
 predict_svdmod = function(test, models) {
   np = nrow(test)
   pred = rep(NA, np)
@@ -65,8 +61,6 @@ predict_svdmod = function(test, models) {
 #' 
 #' Produces a facet plot of first few basis vectors as images
 #' 
-
-
 image_ggplot = function(images, ivals, title) {
   library(ggplot2)
   image = rep(ivals, 28*28)
@@ -87,8 +81,6 @@ image_ggplot = function(images, ivals, title) {
 #' reports a summary for each label model of basis vectors
 #' optionally plots basis images
 #' 
-
-
 model_report = function(models, kplot = 0) {
   for(m in names(models)) {
     cat("Model", m, ": size ", models[[m]]$k, " var captured ", 
@@ -97,35 +89,35 @@ model_report = function(models, kplot = 0) {
   }
 }
 
-
-##CV part
-
 suppressMessages(library(pbdIO))
 suppressMessages(library(pbdMPI))
 library(parallel)
 library(ggplot2)
-source("../mnist/mnist_read.R")
 
-#source("../code/flexiblas_setup.r")
-#blas_threads = as.numeric(commandArgs(TRUE)[2])
-#fork_cores = as.numeric(commandArgs(TRUE)[3])
-#setback("OPENBLAS")
-#setthreads(blas_threads)
+
+
 
 
 ## Begin CV (This CV is with mclapply. Exercise 8 needs MPI parallelization.)
 ## set up cv parameters
-nfolds = 5   #treba 10 a seq(85, 95, 0.2)
-pars = seq(80, 95,0.2)      ## par values to fit
+
+
+nfolds = 5
+pars = seq(80.0, 95, 0.2) ## par values to fit
+
+
 my.rank <- comm.rank()
+
+
+
 folds = sample( rep_len(1:nfolds, nrow(train)), nrow(train) ) ## random folds
 cv = expand.grid(par = pars, fold = 1:nfolds)  ## all combinations
 my_index = comm.chunk(nrow(cv), form = "vector")
 
 ranks = comm.size()
 
-## function for parameter combination i
 
+## function for parameter combination i
 fold_err = function(i, cv, folds, train) {
   par = cv[i, "par"]
   fold = (folds == cv[i, "fold"])
@@ -135,23 +127,19 @@ fold_err = function(i, cv, folds, train) {
 }
 
 ## apply fold_err() over parameter combinations
-
 comm.print(my_index)
 
 
-comm.print("preslo to pred lapply",my.rank,all.rank = TRUE)
-
+comm.print("pred lapply",my.rank,all.rank = TRUE)
 my_cv_err = lapply(my_index,fold_err, cv = cv, folds = folds, train = train)
-comm.print("preslo to za lapply",my.rank,all.rank = TRUE)
+comm.print("za lapply",my.rank,all.rank = TRUE)
 
-## sum fold errors for each parameter value
+
 cv_err = allgather(my_cv_err) 
 cv_err_par = tapply(unlist(cv_err), cv[, "par"], sum)
 
-
 comm.print(cv_err_par)
 
-## plot cv curve with loess smoothing (ggplot default)
 pdf("Crossvalidation.pdf")
 ggplot(data.frame(pct = pars, error = cv_err_par/nrow(train)), 
        aes(pct, error)) + geom_point() + geom_smooth() +
@@ -159,18 +147,13 @@ ggplot(data.frame(pct = pars, error = cv_err_par/nrow(train)),
 dev.off()
 
 
-
-comm.print(cv_err_par)
 ## End CV
 
-
 ## recompute with optimal pct
-if(comm.rank() == 0) { 
-  models = svdmod(train, train_lab, pct = 85)
-  pdf("BasisImages.pdf")
-  model_report(models, kplot = 9)
-  dev.off()
-
+if(comm.rank() == 0) { models = svdmod(train, train_lab, pct = 85)
+pdf("BasisImages.pdf")
+model_report(models, kplot = 9)
+dev.off()
 predicts = predict_svdmod(test, models)
 correct <- sum(predicts == test_lab)
 cat("Proportion Correct:", correct/nrow(test), "\n")}
