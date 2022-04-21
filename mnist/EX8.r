@@ -111,7 +111,7 @@ fork_cores = as.numeric(commandArgs(TRUE)[3])
 setback("OPENBLAS")
 setthreads(blas_threads)
 
-comm.print("TU sme")
+comm.cat("TU sme")
 
 ## Begin CV (This CV is with mclapply. Exercise 8 needs MPI parallelization.)
 ## set up cv parameters
