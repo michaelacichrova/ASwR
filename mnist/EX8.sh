@@ -1,5 +1,5 @@
 #!/bin/bash
-#PBS -N Ex8
+#PBS -N EX8
 #PBS -l select=2:ncpus=128,walltime=00:50:00
 #PBS -q qexp
 #PBS -e EX8.e
