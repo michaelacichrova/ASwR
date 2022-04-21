@@ -102,7 +102,7 @@ library(ggplot2)
 ## set up cv parameters
 
 
-nfolds = 10
+nfolds = 5
 pars = seq(80.0, 95, 0.2) ## par values to fit
 
 
