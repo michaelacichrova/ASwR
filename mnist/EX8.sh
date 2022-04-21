@@ -11,6 +11,6 @@ pwd
 module load R
 echo "loaded R"
 
-time Rscript EX8.R
+time Rscript EX8.r
 
-time mpirun --map-by ppr:32:node Rscript EX8.R
+time mpirun --map-by ppr:32:node Rscript EX8.r
