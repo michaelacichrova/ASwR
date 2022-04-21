@@ -111,11 +111,10 @@ fork_cores = as.numeric(commandArgs(TRUE)[3])
 setback("OPENBLAS")
 setthreads(blas_threads)
 
-comm.cat("TU sme")
 
 ## Begin CV (This CV is with mclapply. Exercise 8 needs MPI parallelization.)
 ## set up cv parameters
-nfolds = 2   #treba 10 a seq(85, 95, 0.2)
+nfolds = 10   #treba 10 a seq(85, 95, 0.2)
 pars = seq(85, 95, 5)      ## par values to fit
 my.rank <- comm.rank()
 folds = sample( rep_len(1:nfolds, nrow(train)), nrow(train) ) ## random folds
