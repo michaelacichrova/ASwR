@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -N mnist_svd_mv
-#PBS -l select=2:mpiprocs=64,walltime=00:50:00
+#PBS -l select=2:mpiprocs=128,walltime=00:50:00
 #PBS -q qexp
 #PBS -e mnist_svd_mv.e
 #PBS -o mnist_svd_mv.o
