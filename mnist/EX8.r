@@ -2,6 +2,7 @@ cat("Read and set up MNIST data:\n")
 system.time(source("mnist_read.R"))
 source("../code/flexiblas_setup.r")
 setback("OPENBLAS")
+setthreads(1)
 
 #' svdmod
 #' 
@@ -102,8 +103,8 @@ library(ggplot2)
 ## set up cv parameters
 
 
-nfolds = 5
-pars = seq(80.0, 95, 0.2) ## par values to fit
+nfolds = 10
+pars = seq(85, 95, 0.2) ## par values to fit
 
 
 my.rank <- comm.rank()
@@ -131,7 +132,7 @@ comm.print(my_index)
 
 
 comm.print("pred lapply",my.rank,all.rank = TRUE)
-my_cv_err = lapply(my_index,fold_err, cv = cv, folds = folds, train = train)
+my_cv_err = mclapply(my_index,fold_err, cv = cv, folds = folds, train = train,mc.cores=4)
 comm.print("za lapply",my.rank,all.rank = TRUE)
 
 
