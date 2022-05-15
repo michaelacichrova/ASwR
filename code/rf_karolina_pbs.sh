@@ -15,6 +15,7 @@ time Rscript rf_serial.r
 <<<<<<< HEAD
 time Rscript rf_mc.r 1
 time Rscript rf_mc.r 2
+time Rscript rf_mc.r 4
 time Rscript rf_mc.r 8
 time Rscript rf_mc.r 16
 time Rscript rf_mc.r 32
