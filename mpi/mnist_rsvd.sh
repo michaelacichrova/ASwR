@@ -37,5 +37,8 @@ time mpirun --map-by ppr:16:node Rscript mnist_rsvd.R
 echo -e "\n>>>>>>>> read and pbdML rsvd 32 " >&2
 time mpirun --map-by ppr:32:node Rscript mnist_rsvd.R
 
+echo -e "\n>>>>>>>> read and pbdML rsvd 64 " >&2
+time mpirun --map-by ppr:64:node Rscript mnist_rsvd.R
+
 
 
