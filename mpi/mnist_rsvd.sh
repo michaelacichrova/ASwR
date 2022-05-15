@@ -6,7 +6,7 @@
 #PBS -e mnist_rsvd.e
 #PBS -o mnist_rsvd.o
 
-cd ~/KPMS-IT4I-EX/mpi
+cd ~/ASwR/mpi
 pwd
 
 module load R
@@ -19,7 +19,20 @@ export RDMAV_FORK_SAFE=1
 ## Fix for warnings from libfabric/1.12 bug
 module swap libfabric/1.12.1-GCCcore-10.3.0 libfabric/1.13.2-GCCcore-11.2.0 
 
-echo -e "\n>>>>>>>> read and pbdML rsvd" >&2
+echo -e "\n>>>>>>>> read and pbdML rsvd 1 " >&2
+time mpirun --map-by ppr:1:node Rscript mnist_rsvd.R
+
+echo -e "\n>>>>>>>> read and pbdML rsvd 2 " >&2
+time mpirun --map-by ppr:2:node Rscript mnist_rsvd.R
+
+echo -e "\n>>>>>>>> read and pbdML rsvd 4 " >&2
+time mpirun --map-by ppr:4:node Rscript mnist_rsvd.R
+
+echo -e "\n>>>>>>>> read and pbdML rsvd 8 " >&2
+time mpirun --map-by ppr:8:node Rscript mnist_rsvd.R
+
+echo -e "\n>>>>>>>> read and pbdML rsvd 16 " >&2
 time mpirun --map-by ppr:16:node Rscript mnist_rsvd.R
+
 
 
