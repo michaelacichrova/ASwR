@@ -3,10 +3,10 @@
 #PBS -l select=1:mpiprocs=32
 #PBS -l walltime=00:10:00
 #PBS -q qexp
-#PBS -e mnist_rsvd.e
-#PBS -o mnist_rsvd.o
+#PBS -e mnist_ddemo.e
+#PBS -o mnist_ddemo.o
 
-cd ~/KPMS-IT4I-EX/mpi
+cd ~/ASwR/mpi
 pwd
 
 module load R
